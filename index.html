@@ -49,6 +49,7 @@
             li.innerHTML = `
                 <span onclick="toggleTask(this)">${taskText}</span>
                 <div>
+                    <button class="btn btn-warning btn-sm" onclick="editTask(this)">✏</button>
                     <button class="btn btn-success btn-sm" onclick="toggleTask(this.previousElementSibling)">✔</button>
                     <button class="btn btn-danger btn-sm" onclick="deleteTask(this)">✖</button>
                 </div>
@@ -64,14 +65,27 @@
             saveTasks();
         }
 
+        function editTask(button) {
+            let taskText = button.parentElement.parentElement.querySelector("span").innerText;
+            let newText = prompt("Edit your task:", taskText);
+            if (newText !== null && newText.trim() !== "") {
+                button.parentElement.parentElement.querySelector("span").innerText = newText.trim();
+                saveTasks();
+            }
+        }
+
         function deleteTask(button) {
-            button.parentElement.parentElement.remove();
-            saveTasks();
+            if (confirm("Are you sure you want to delete this task?")) {
+                button.parentElement.parentElement.remove();
+                saveTasks();
+            }
         }
 
         function deleteAllTasks() {
-            document.getElementById("taskList").innerHTML = "";
-            localStorage.removeItem("tasks");
+            if (confirm("Are you sure you want to delete all tasks?")) {
+                document.getElementById("taskList").innerHTML = "";
+                localStorage.removeItem("tasks");
+            }
         }
 
         function saveTasks() {
@@ -90,6 +104,7 @@
                 li.innerHTML = `
                     <span onclick="toggleTask(this)" class="${task.completed ? 'completed' : ''}">${task.text}</span>
                     <div>
+                        <button class="btn btn-warning btn-sm" onclick="editTask(this)">✏</button>
                         <button class="btn btn-success btn-sm" onclick="toggleTask(this.previousElementSibling)">✔</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteTask(this)">✖</button>
                     </div>
