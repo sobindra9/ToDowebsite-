@@ -30,6 +30,7 @@
             <div class="input-group mb-3">
                 <input type="text" id="taskInput" class="form-control" placeholder="Add a new task">
                 <button class="btn btn-primary" onclick="addTask()">Add</button>
+                <button class="btn btn-danger ms-2" onclick="deleteAllTasks()">Delete All</button>
             </div>
             <ul id="taskList" class="list-group"></ul>
         </div>
@@ -66,6 +67,11 @@
         function deleteTask(button) {
             button.parentElement.parentElement.remove();
             saveTasks();
+        }
+
+        function deleteAllTasks() {
+            document.getElementById("taskList").innerHTML = "";
+            localStorage.removeItem("tasks");
         }
 
         function saveTasks() {
